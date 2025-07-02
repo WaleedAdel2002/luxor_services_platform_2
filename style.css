@@ -1,0 +1,320 @@
+/* تحديد الاتجاه العام للصفحة من اليمين لليسار */
+body {
+    direction: rtl;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* لمنع ظهور شريط التمرير */
+    background-color: #f0f2f5;
+}
+
+/* الهيدر العلوي */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #4CAF50; /* أخضر مستوحى من طبيعة الأقصر */
+    color: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    position: relative;
+    z-index: 1000; /* للتأكد من ظهوره فوق الخريطة */
+}
+
+.header .logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.search-bar {
+    display: flex;
+    flex-grow: 1;
+    margin: 0 20px;
+    border-radius: 20px;
+    background-color: rgba(255,255,255,0.9);
+    overflow: hidden;
+}
+
+.search-bar input {
+    border: none;
+    padding: 8px 15px;
+    flex-grow: 1;
+    font-size: 16px;
+    outline: none;
+    background: transparent;
+    color: #333;
+}
+
+.search-bar button {
+    background-color: #f0f0f0;
+    border: none;
+    padding: 8px 15px;
+    cursor: pointer;
+    font-size: 18px;
+    color: #555;
+}
+
+.menu-icon {
+    font-size: 24px;
+    cursor: pointer;
+}
+
+/* منطقة الخريطة */
+#map {
+    height: calc(100vh - 60px - 70px); /* 100% ارتفاع الشاشة - ارتفاع الهيدر - ارتفاع شريط الفئات */
+    width: 100%;
+    position: relative;
+    z-index: 1;
+}
+
+/* شريط الفئات */
+.category-bar {
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+    background-color: #fff;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+    position: relative;
+    z-index: 10; /* ليظهر فوق الخريطة */
+    overflow-x: auto; /* للسماح بالتمرير إذا كانت الأزرار كثيرة */
+    white-space: nowrap; /* لمنع الأزرار من النزول لسطر جديد */
+}
+
+.category-btn {
+    background-color: #e0e0e0;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 15px;
+    margin: 0 5px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
+    transition: background-color 0.3s ease;
+}
+
+.category-btn:hover, .category-btn.active {
+    background-color: #66BB6A; /* أخضر فاتح عند التفعيل أو التحويم */
+    color: white;
+}
+
+/* الأزرار العائمة على الخريطة */
+.nearest-services-btn, .recenter-btn {
+    position: absolute;
+    background-color: #FFC107; /* لون ذهبي مستوحى من الأقصر */
+    color: #333;
+    border: none;
+    border-radius: 50%; /* لجعلها دائرية */
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+    z-index: 100;
+    transition: background-color 0.3s ease;
+}
+
+.nearest-services-btn {
+    bottom: 20px;
+    left: 20px; /* في الزاوية اليسرى السفلية (بسبب rtl) */
+    width: 120px;
+    border-radius: 25px; /* لجعلها مستطيلة ذات حواف دائرية */
+}
+
+.recenter-btn {
+    bottom: 80px; /* أعلى زر أقرب الخدمات */
+    right: 20px; /* في الزاوية اليمنى السفلية */
+    font-size: 20px;
+}
+
+.nearest-services-btn:hover, .recenter-btn:hover {
+    background-color: #FFA000; /* لون أغمق عند التحويم */
+}
+
+/* نافذة المودال لتفاصيل الخدمة */
+.modal {
+    display: none; /* مخفية افتراضيًا */
+    position: fixed; /* تبقى في مكانها حتى عند التمرير */
+    z-index: 1000; /* فوق كل شيء آخر */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* تمكين التمرير إذا كان المحتوى كبيرًا */
+    background-color: rgba(0,0,0,0.5); /* خلفية سوداء شفافة */
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    width: 80%; /* عرض المودال */
+    max-width: 500px;
+    position: relative;
+    text-align: right; /* محاذاة النص لليمين */
+}
+
+.close-button {
+    color: #aaa;
+    float: left; /* ليكون في أعلى اليسار في التصميم من اليمين لليسار */
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#modal-service-name {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+#modal-service-type {
+    color: #555;
+    margin-bottom: 5px;
+}
+
+#modal-service-address, #modal-service-phone, #modal-service-hours {
+    margin-bottom: 5px;
+    color: #666;
+}
+
+#modal-directions-btn {
+    background-color: #007BFF; /* أزرق */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+}
+
+#modal-directions-btn:hover {
+    background-color: #0056b3;
+}
+
+/* تصميم أيقونات Leaflet الافتراضية */
+.leaflet-container .leaflet-marker-icon,
+.leaflet-container .leaflet-marker-shadow {
+    filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.3)); /* لإضافة ظل بسيط للأيقونات */
+}
+
+
+
+        /* تنسيق الأيقونة */
+        .designer-info {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            text-align: center;
+            line-height: 30px;
+            font-size: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            z-index: 1000;
+        }
+
+        .designer-info:hover {
+            background-color: #555;
+        }
+
+        /* تنسيق النافذة المنبثقة */
+        .popup {
+            display: none;
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 200px;
+            text-align: center;
+            z-index: 1000;
+        }
+
+        .popup img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+
+        .popup h3 {
+            margin: 0;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .popup p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* خلفية شبه شفافة عند ظهور النافذة */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+
+/* تنسيق المودال الخاص بأقرب الخدمات */
+#nearest-services-criteria-modal .modal-content {
+    max-width: 400px; /* يمكن تعديل العرض حسب الحاجة */
+    text-align: right;
+}
+
+#nearest-service-type-select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box; /* لضمان أن العرض يشمل البادينغ والحدود */
+}
+
+#find-nearest-btn-in-modal {
+    background-color: #4CAF50; /* لون أخضر مشابه للرأس */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    width: 100%; /* اجعل الزر يملأ العرض */
+}
+
+#find-nearest-btn-in-modal:hover {
+    background-color: #45a049;
+}

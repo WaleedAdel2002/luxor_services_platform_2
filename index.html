@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>خدمات الأقصر الآن</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<!-- الأيقونة -->
+<div class="designer-info" onclick="togglePopup()">
+    ℹ️
+</div>
+
+<!-- النافذة المنبثقة -->
+<div class="popup" id="info-popup">
+    <img src="images/cv.jpg" alt="cv">
+    <h3>Waleed Adel Salah</h3>
+    <p>Demonstrator at SVU</p>
+    <p>Waledadel983@gmail.com</p>
+</div>
+
+<!-- خلفية شبه شفافة -->
+<div class="overlay" id="info-overlay" onclick="togglePopup()"></div>
+    <div class="header">
+        <div class="logo">خدمات الأقصر</div>
+        <div class="search-bar">
+            <input type="text" id="search-input" placeholder="ابحث عن خدمة أو مكان...">
+            <button id="search-button">🔍</button>
+        </div>
+
+
+        <div class="menu-icon">☰</div>
+
+    </div>
+
+    <div id="map"></div> <div class="category-bar">
+        <button class="category-btn" data-category="hospitals">🏥 مستشفيات</button>
+        <button class="category-btn" data-category="pharmacies">💊 صيدليات</button>
+        <button class="category-btn" data-category="police">👮 شرطة</button>
+        <button class="category-btn" data-category="banks">🏦 بنوك</button>
+        <button class="category-btn" data-category="post-offices">✉️ بريد</button>
+    </div>
+
+    <button class="nearest-services-btn" id="nearest-services-btn">أقرب الخدمات لي</button>
+    <button class="recenter-btn" id="recenter-btn">📍</button>
+
+    <div id="service-details-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2 id="modal-service-name"></h2>
+            <p id="modal-service-type"></p>
+            <p id="modal-service-address"></p>
+            <p id="modal-service-phone"></p>
+            <p id="modal-service-hours"></p>
+            <button id="modal-directions-btn">التوجيه إلى هنا</button>
+        </div>
+    </div>
+
+<div id="nearest-services-criteria-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-button" id="close-nearest-modal">&times;</span>
+        <h2>البحث عن أقرب الخدمات</h2>
+        <p>اختر نوع الخدمة:</p>
+        <select id="nearest-service-type-select">
+            <option value="all">كل الخدمات</option>
+            <option value="hospitals">🏥 مستشفيات</option>
+            <option value="pharmacies">💊 صيدليات</option>
+            <option value="police">👮 شرطة</option>
+            <option value="banks">🏦 بنوك</option>
+            <option value="post-offices">✉️ بريد</option>
+        </select>
+        <button id="find-nearest-btn-in-modal">البحث</button>
+    </div>
+</div>
+
+    <script src="script.js"></script>
+
+
+
+
+</body>
+</html>
